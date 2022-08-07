@@ -34,9 +34,17 @@
 
     </nav>
 
-    <section>
+    <section class="restaurantes">
 
-        <b>Restaurantes</b>
+        {% for restaurant in restaurants %}
+
+            <div class="restaurante">
+
+                <b>{{restaurant}}</b>
+
+            </div>
+
+        {% endfor %}
 
     </section>
 
