@@ -13,19 +13,18 @@ gmaps = googlemaps.Client(key=API_KEY)
 
 places_result = gmaps.places_nearby(location='6.280478,-75.602796', radius='1000', type='restaurant', open_now=False)
 
-restaurantes = {}
+restaurantes = []
 
 for place in places_result['results']:
 
   my_place_id = place['place_id']
 
-  my_name = place['name']
-
-  my_fields = ['price_level', 'rating']
+  my_fields = ['name', 'price_level', 'rating', 'formatted_address']
 
   place_details = gmaps.place(place_id= my_place_id,fields = my_fields)
 
-  restaurantes[f'{my_name}'] = place_details
+  restaurantes.append(place_details)
+
 
 """https://maps.googleapis.com/maps/api/place/photo
   ?maxwidth=400

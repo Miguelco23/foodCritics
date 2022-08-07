@@ -42,7 +42,19 @@
 
                 <div class="restaurante">
 
-                    <b>{{restaurant}}</b>
+                    <b>{{restaurant.result.name}}</b>
+
+                    {% if restaurant.result.rating %}
+
+                        <p><strong>Puntuacion:</strong> {{restaurant.result.rating}}</p>
+
+                    {% else %}
+
+                        <p><strong>Aun no hay puntuaciones</strong></p>
+
+                    {% endif %}
+
+                    <p><strong>Direccion:</strong> {{restaurant.result.formatted_address}}</p>
 
                 </div>
 
