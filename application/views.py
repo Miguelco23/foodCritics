@@ -11,9 +11,12 @@ API_KEY = 'AIzaSyBFw1F6ZxOpsbdWsuJJAH5YhRYXMlQALtA' #Identificador en la API de 
 
 gmaps = googlemaps.Client(key=API_KEY)
 
+#Obtencion de restaurantes cerca de la ubicacion especificada en un radio de 1000 metros
 places_result = gmaps.places_nearby(location='6.280478,-75.602796', radius='1000', type='restaurant', open_now=False)
 
 restaurantes = []
+
+#Almacenar los datos que seran usados de los restaurantes en la variable restaurantes
 
 for place in places_result['results']:
 
