@@ -7,7 +7,7 @@ import pprint
 
 # Create your views here.\
 
-API_KEY = 'AIzaSyBFw1F6ZxOpsbdWsuJJAH5YhRYXMlQALtA' #Identificador en la API de Google
+API_KEY = '' #Identificador en la API de Google --- YOUR API KEY
 
 gmaps = googlemaps.Client(key=API_KEY)
 
@@ -22,17 +22,25 @@ for place in places_result['results']:
 
   my_place_id = place['place_id']
 
-  my_fields = ['name', 'price_level', 'rating', 'formatted_address']
+  my_fields = ['name', 'price_level', 'rating', 'formatted_address', 'user_ratings_total', 'review', 'place_id']
 
-  place_details = gmaps.place(place_id= my_place_id,fields = my_fields)
+  place_details = gmaps.place(place_id= my_place_id,fields = my_fields, language='ES')
 
   restaurantes.append(place_details)
 
-
-"""https://maps.googleapis.com/maps/api/place/photo
-  ?maxwidth=400
-  &photo_reference=AeJbb3fTnjebcueWbwFxCU60yJ6tpjrhF6W8Tj8hNu_s3S5G4-hgkNz7046guY4Q3sf59exPNfBrILImvjy45QQDQoXeg17LbLFOeYpX16DiUKJ9ZdsM6hpUM1IOEI4PrqoeCl3pf7pfuhSYCwwRV3aEq8t21rZKi0QNPUnogcmBdmvg7b1h
-  &key=API_KEY"""
-
 def home(request):
-    return render(request, 'home.html', {'restaurants' : restaurantes})
+  return render(request, 'home.html', {'restaurants' : restaurantes})
+
+def enviarRestaurante(request):
+
+  id = request.GET['restaurant']
+
+  restaurante = []
+
+  my_fields = ['name', 'price_level', 'rating', 'formatted_address', 'user_ratings_total', 'review', 'place_id']
+
+  current_details = gmaps.place(place_id = id, fields= my_fields, language='ES')
+
+  restaurante.append(current_details)
+
+  return render(request, 'restaurante.html', {'place_id' : id, 'restaurante' : restaurante})
