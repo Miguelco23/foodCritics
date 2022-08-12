@@ -29,7 +29,6 @@ for place in places_result['results']:
   restaurantes.append(place_details)
 
 def home(request):
-<<<<<<< HEAD
   return render(request, 'home.html', {'restaurants' : restaurantes})
 
 def enviarRestaurante(request):
@@ -45,6 +44,3 @@ def enviarRestaurante(request):
   restaurante.append(current_details)
 
   return render(request, 'restaurante.html', {'place_id' : id, 'restaurante' : restaurante})
-=======
-    return render(request, 'home.html', {'restaurants' : restaurantes})
->>>>>>> 38ae9c55305591af261325de3040bfdd762b9ad1
