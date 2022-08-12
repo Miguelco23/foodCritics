@@ -12,7 +12,7 @@ API_KEY = 'AIzaSyBFw1F6ZxOpsbdWsuJJAH5YhRYXMlQALtA' #Identificador en la API de 
 gmaps = googlemaps.Client(key=API_KEY)
 
 #Obtencion de restaurantes cerca de la ubicacion especificada en un radio de 1000 metros
-places_result = gmaps.places_nearby(location='6.280478,-75.602796', radius='1000', type='restaurant', open_now=False)
+places_result = gmaps.places_nearby(location='6.181976, -75.575254', radius='1000', type='restaurant', open_now=False)
 
 restaurantes = []
 
@@ -35,12 +35,8 @@ def enviarRestaurante(request):
 
   id = request.GET['restaurant']
 
-  restaurante = []
-
   my_fields = ['name', 'price_level', 'rating', 'formatted_address', 'user_ratings_total', 'review', 'place_id']
 
-  current_details = gmaps.place(place_id = id, fields= my_fields, language='ES')
-
-  restaurante.append(current_details)
+  restaurante = gmaps.place(place_id = id, fields= my_fields, language='ES')
 
   return render(request, 'restaurante.html', {'place_id' : id, 'restaurante' : restaurante})
