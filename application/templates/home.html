@@ -44,20 +44,24 @@
 
                 <div class="restaurante">
 
-                    <b>{{restaurant.result.name}}</b>
+                    <a href="restaurante?restaurant={{restaurant.result.place_id}}">
+ 
+                        <b>{{restaurant.result.name}}</b>
 
-                    {% if restaurant.result.rating %}
+                        {% if restaurant.result.rating %}
 
-                        <p><strong>Puntuacion:</strong> {{restaurant.result.rating}}</p>
+                            <p><strong>Puntuacion:</strong> {{restaurant.result.rating}}</p>
 
-                    {% else %}
+                        {% else %}
 
-                        <p><strong>Aun no hay puntuaciones</strong></p>
+                            <p><strong>Aun no hay puntuaciones</strong></p>
 
-                    {% endif %}
+                        {% endif %}
 
-                    <p><strong>Direccion:</strong> {{restaurant.result.formatted_address}}</p>
-
+                        <p><strong>Direccion:</strong> {{restaurant.result.formatted_address}}</p>
+    
+                    </a>
+                    
                 </div>
 
             {% endfor %}

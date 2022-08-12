@@ -21,5 +21,7 @@ from application import views as applicationViews
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', applicationViews.home ),
+    path('restaurante/', applicationViews.enviarRestaurante),
+
     
 ]
