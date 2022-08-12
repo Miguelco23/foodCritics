@@ -8,7 +8,25 @@
 </head>
 <body>
 
-    <h1>Estamos viendo el restaurante {{place_id}}</h1>
+    <h1>Estamos viendo el restaurante {{restaurante.result.name}}</h1>
+
+    {%if restaurante.result.reviews%}
+        
+        {%for review in restaurante.result.reviews%}
+
+            <b><strong>Nombre: </strong>{{review.author_name}}</b>
+            <p><strong>Comentario: </strong>{{review.text}}</p>
+            <p><strong>Puntuacion: </strong>{{review.rating}}</p>
+            <br>
+            
+        {%endfor%}
+
+
+    {%else%}
+
+        <p><strong>Aun no existen comentarios, se el primero en hacerlo. </strong></p>
+
+    {%endif%}
 
 </body>
 </html>
