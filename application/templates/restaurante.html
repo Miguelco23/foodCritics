@@ -4,30 +4,63 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link type="text/css" rel="stylesheet" href="{% static 'css/styles.css' %}">
+
     <title>Restaurante</title>
 </head>
 <body>
 
-    <h1>Estamos viendo el restaurante {{restaurante.result.name}}</h1>
+    <header>
 
-    {%if restaurante.result.reviews%}
-        
-        {%for review in restaurante.result.reviews%}
+        <h1>FoodCritics</h1>
 
-            <b><strong>Nombre: </strong>{{review.author_name}}</b>
-            <p><strong>Comentario: </strong>{{review.text}}</p>
-            <p><strong>Puntuacion: </strong>{{review.rating}}</p>
-            <br>
-            
-        {%endfor%}
+        <b>Perfil</b>
+        <b>Puntos 0</b>
 
+    </header>
 
-    {%else%}
+    <section>
 
-        <p><strong>Aun no existen comentarios, se el primero en hacerlo. </strong></p>
+        <h1>Estamos viendo el restaurante {{restaurante.result.name}} ------ Puntuación: {{restaurante.result.rating}}</h1>
 
-    {%endif%}
->>>>>>> main
+        <h3>Comentarios totales: {{restaurante.result.user_ratings_total}}</h3>
+
+        <div class="comentarios">
+
+            {%if restaurante.result.reviews%}
+
+                {%for review in restaurante.result.reviews%}
+
+                    <div class="comentario">
+    
+                        <b><strong>Nombre: </strong>{{review.author_name}}</b>
+
+                        {% if review.text %}
+
+                            <p><strong>Comentario: </strong>{{review.text}}</p>
+
+                        {% else %}
+
+                            <p>Sin comentario.</p>
+
+                        {% endif %}
+                        
+                        <p><strong>Puntuacion: </strong>{{review.rating}}</p>
+                        <br>
+
+                    </div>
+                
+                {%endfor%}
+    
+            {%else%}
+    
+                <p><strong>Aun no existen comentarios, se el primero en hacerlo. </strong></p>
+    
+            {%endif%}
+
+        </div>
+
+    </section>
 
 </body>
 </html>
