@@ -7,12 +7,12 @@ import pprint
 
 # Create your views here.\
 
-API_KEY = 'AIzaSyBFw1F6ZxOpsbdWsuJJAH5YhRYXMlQALtA' #Identificador en la API de Google --- YOUR API KEY
+API_KEY = '' #Identificador en la API de Google --- YOUR API KEY
 
 gmaps = googlemaps.Client(key=API_KEY)
 
 #Obtencion de restaurantes cerca de la ubicacion especificada en un radio de 1000 metros
-places_result = gmaps.places_nearby(location='6.181976, -75.575254', radius='1000', type='restaurant', open_now=False)
+places_result = gmaps.places_nearby(location='6.241841, -75.595495', radius='1000', type='restaurant', open_now=False)
 
 restaurantes = []
 
