@@ -7,7 +7,7 @@ import pprint
 
 # Create your views here.\
 
-API_KEY = '' #Identificador en la API de Google --- YOUR API KEY
+API_KEY = 'AIzaSyBFw1F6ZxOpsbdWsuJJAH5YhRYXMlQALtA' #Identificador en la API de Google --- YOUR API KEY
 
 gmaps = googlemaps.Client(key=API_KEY)
 
