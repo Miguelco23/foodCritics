@@ -61,3 +61,19 @@ footer {
 .restaurante:hover {
     border: 1px solid #000;
 }
+
+.comentarios {
+    display: grid;
+    padding: 2% 1%;
+    grid-template-columns: 1fr;
+}
+
+.comentario {
+    background-color: #777;
+    text-align: justify;
+    margin-bottom: 1%;
+}
+
+.comentario:hover {
+    border: 1px solid #000;
+}
