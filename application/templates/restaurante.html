@@ -23,19 +23,19 @@
 
     <section>
 
-        <h1>Estamos viendo el restaurante {{restaurante.result.name}} ------ Puntuación: {{restaurante.result.rating}}</h1>
+        <h1>Estamos viendo el restaurante {{restaurante.name}} ------ Puntuación: {{restaurante.review.rating}}</h1>
 
-        <h3>Comentarios totales: {{restaurante.result.user_ratings_total}}</h3>
+        <h3>Comentarios totales: {{restaurante}}</h3>
 
         <div class="comentarios">
 
-            {%if restaurante.result.reviews%}
+            {%if restaurante.review.reviews%}
 
-                {%for review in restaurante.result.reviews%}
+                {%for review in restaurante.review.reviews%}
 
                     <div class="comentario">
     
-                        <b><strong>Nombre: </strong>{{review.author_name}}</b>
+                        <b><strong>Nombre: </strong>{{review.author}}</b>
 
                         {% if review.text %}
 
