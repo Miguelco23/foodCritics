@@ -20,6 +20,10 @@ places_result = gmaps.places_nearby(location='6.280506, -75.602769', radius='100
 places_result = gmaps.places_nearby(location='6.246384, -75.593709', radius='1000', type='restaurant', open_now=False)
 #6.280506, -75.602769
 
+
+places_result = gmaps.places_nearby(location='6.280506, -75.602769', radius='1000', type='restaurant', open_now=False)
+#6.280506, -75.602769 / 6.246384, -75.593709
+
 restaurantes = Restaurantes.objects.all()
 
 #Almacenar los datos que seran usados de los restaurantes en la variable restaurantes
@@ -63,22 +67,23 @@ for place in places_result['results']:
 
 
   #Creacion del restaurante en la base de datos, en caso de existir lo actualiza
-  restaurante_db = Restaurantes.objects.get_or_create(name= nombre, address= place['vicinity'], place_id = my_place_id, rating = rating_rest)
-  comentarios_db = Comentarios.objects.get_or_create(place_id = my_place_id, reviews = comentarios)
+
+  #restaurante_db = Restaurantes.objects.get_or_create(name= nombre, address= place['vicinity'], place_id = my_place_id, rating = rating_rest)
+  #comentarios_db = Comentarios.objects.get_or_create(place_id = my_place_id, reviews = comentarios)
 
 
 def home(request):
   return render(request, 'home.html', {'restaurants' : restaurantes})
 
 def enviarRestaurante(request):
-
+  
   id = request.GET['restaurant']
 
   my_fields = ['name', 'price_level', 'rating', 'formatted_address', 'user_ratings_total', 'review', 'place_id']
 
   restaurante = Restaurantes.objects.get(place_id=id)
   comentarios = Comentarios.objects.get(place_id=id)
-
+  
   if request.POST:
     author = request.POST['name_user']
     text = request.POST['comentario_user']
@@ -88,9 +93,38 @@ def enviarRestaurante(request):
 
     print(message)
 
+    comentario = {"author" : author, "time" : "No definido", "text" : text, "rating" : rating}
+    
+    comentarios.reviews.append(comentario)
+
+    almacenar_comentarios = []
+
+    for coment in comentarios.reviews:
+      almacenar_comentarios.append(coment)
+
+    Comentarios.objects.filter(place_id = id).update(reviews = almacenar_comentarios)
+
   return render(request, 'restaurante.html', {'place_id' : id, 'restaurante' : restaurante, 'comentarios' : comentarios})
 
 
 def mapa(request):
 
   return render(request, 'mapa.html')
+
+
+
+def puntuacionTotal(comentarios):
+  puntuacion_total = 0
+
+  for datos in comentarios.reviews:
+
+    print(datos)
+
+    rating = int(datos['rating'])
+
+    puntuacion_total += rating
+  
+  puntuacion_total /= len(comentarios.reviews) if len(comentarios.reviews) > 0 else 1
+
+  return puntuacion_total
+  
