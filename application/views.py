@@ -17,14 +17,9 @@ gmaps = googlemaps.Client(key=API_KEY)
 places_result = gmaps.places_nearby(location='6.280506, -75.602769', radius='1000', type='restaurant', open_now=False)
 #6.280506, -75.602769 / 6.246384, -75.593709
 
-places_result = gmaps.places_nearby(location='6.246384, -75.593709', radius='1000', type='restaurant', open_now=False)
-#6.280506, -75.602769
-
-
-places_result = gmaps.places_nearby(location='6.280506, -75.602769', radius='1000', type='restaurant', open_now=False)
-#6.280506, -75.602769 / 6.246384, -75.593709
-
 restaurantes = Restaurantes.objects.all()
+
+puntos_user = 100
 
 #Almacenar los datos que seran usados de los restaurantes en la variable restaurantes
 
@@ -68,15 +63,19 @@ for place in places_result['results']:
 
   #Creacion del restaurante en la base de datos, en caso de existir lo actualiza
 
-  #restaurante_db = Restaurantes.objects.get_or_create(name= nombre, address= place['vicinity'], place_id = my_place_id, rating = rating_rest)
-  #comentarios_db = Comentarios.objects.get_or_create(place_id = my_place_id, reviews = comentarios)
+  restaurante_db = Restaurantes.objects.get_or_create(name= nombre, address= place['vicinity'], place_id = my_place_id, rating = rating_rest)
+  comentarios_db = Comentarios.objects.get_or_create(place_id = my_place_id, reviews = comentarios)
 
 
 def home(request):
-  return render(request, 'home.html', {'restaurants' : restaurantes})
+  global puntos_user
+
+  return render(request, 'home.html', {'restaurants' : restaurantes, 'puntos' : puntos_user})
 
 def enviarRestaurante(request):
   
+  global puntos_user
+
   id = request.GET['restaurant']
 
   my_fields = ['name', 'price_level', 'rating', 'formatted_address', 'user_ratings_total', 'review', 'place_id']
@@ -102,14 +101,17 @@ def enviarRestaurante(request):
     for coment in comentarios.reviews:
       almacenar_comentarios.append(coment)
 
+    puntos_user += 10
+
     Comentarios.objects.filter(place_id = id).update(reviews = almacenar_comentarios)
 
-  return render(request, 'restaurante.html', {'place_id' : id, 'restaurante' : restaurante, 'comentarios' : comentarios})
+  return render(request, 'restaurante.html', {'place_id' : id, 'restaurante' : restaurante, 'comentarios' : comentarios, 'puntos' : puntos_user})
 
 
 def mapa(request):
+  global puntos_user
 
-  return render(request, 'mapa.html')
+  return render(request, 'mapa.html', {'puntos' : puntos_user})
 
 
 
