@@ -20,9 +20,9 @@ from application import views as applicationViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', applicationViews.home ),
+    path('', applicationViews.home, name ="home"),
     path('restaurante/', applicationViews.enviarRestaurante),
-    path('mapa/',applicationViews.mapa),
+    path('mapa/',applicationViews.mapa, name="mapa"),
 
     
 ]
