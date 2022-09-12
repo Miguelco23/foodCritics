@@ -23,6 +23,7 @@ urlpatterns = [
     path('', applicationViews.home ),
     path('restaurante/', applicationViews.enviarRestaurante),
     path('mapa/',applicationViews.mapa),
+    path('tus-puntos/', applicationViews.puntos),
 
     
 ]
