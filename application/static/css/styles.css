@@ -22,10 +22,22 @@
     background-color: rgb(255, 216, 169);
 }
 header.masthed {
-    padding-top: 10rem;
+    padding-top: 6rem;
     padding-bottom: 10rem;
 }
 .features-icon {
     padding-top: 4rem;
     padding-bottom: 7rem;
+}
+.in{
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 0.3rem;
+}
+.mapa{
+    width: 80%; 
+    height:600px;
+}
+.ins{
+    padding-top:5rem;
 }

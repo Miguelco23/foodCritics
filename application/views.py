@@ -63,8 +63,8 @@ for place in places_result['results']:
 
   #Creacion del restaurante en la base de datos, en caso de existir lo actualiza
 
-  restaurante_db = Restaurantes.objects.get_or_create(name= nombre, address= place['vicinity'], place_id = my_place_id, rating = rating_rest)
-  comentarios_db = Comentarios.objects.get_or_create(place_id = my_place_id, reviews = comentarios)
+  #restaurante_db = Restaurantes.objects.get_or_create(name= nombre, address= place['vicinity'], place_id = my_place_id, rating = rating_rest)
+  #comentarios_db = Comentarios.objects.get_or_create(place_id = my_place_id, reviews = comentarios)
 
 
 def home(request):
@@ -112,6 +112,12 @@ def mapa(request):
   global puntos_user
 
   return render(request, 'mapa.html', {'puntos' : puntos_user})
+
+def puntos(request):
+
+  global puntos_user
+
+  return render(request, 'puntos.html', {'puntos' : puntos_user})
 
 
 
