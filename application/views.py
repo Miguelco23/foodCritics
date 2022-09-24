@@ -135,4 +135,8 @@ def puntuacionTotal(comentarios):
   puntuacion_total /= len(comentarios.reviews) if len(comentarios.reviews) > 0 else 1
 
   return puntuacion_total
+
+def menu(request):
+  
+  return render(request, 'menu.html')
   

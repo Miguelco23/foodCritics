@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from application import views as applicationViews
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +25,5 @@ urlpatterns = [
     path('restaurante/', applicationViews.enviarRestaurante),
     path('mapa/',applicationViews.mapa),
     path('tus-puntos/', applicationViews.puntos),
-
-    
-]
+    path('menu/',applicationViews.menu),
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
