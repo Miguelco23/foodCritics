@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpRequest
 from django.http import HttpResponse
 from .models import Comentarios, Restaurantes
+from .models import plato
 
 import googlemaps
 import pprint
@@ -135,8 +136,15 @@ def puntuacionTotal(comentarios):
   puntuacion_total /= len(comentarios.reviews) if len(comentarios.reviews) > 0 else 1
 
   return puntuacion_total
+from django.utils.datastructures import MultiValueDictKeyError
 
 def menu(request):
-  
-  return render(request, 'menu.html')
+  global puntos_user
+
+  id = request.GET['menu']
+  menu = plato.objects.filter(restaurante=id)
+
+
+
+  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user})
   
