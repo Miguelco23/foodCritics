@@ -22,6 +22,8 @@ restaurantes = Restaurantes.objects.all()
 
 puntos_user = 100
 
+bonos = [40,50,50,25,75,40]
+
 #Almacenar los datos que seran usados de los restaurantes en la variable restaurantes
 
 for place in places_result['results']:
@@ -116,9 +118,9 @@ def mapa(request):
 
 def puntos(request):
 
-  global puntos_user
+  global puntos_user, bonos
 
-  return render(request, 'puntos.html', {'puntos' : puntos_user})
+  return render(request, 'puntos.html', {'puntos' : puntos_user, 'bonos': bonos})
 
 
 

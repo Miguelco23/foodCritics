@@ -32,71 +32,23 @@
             <br>
 
             <div class="row">
+
+                {% for bono in bonos %}
                 
-                <div class="column" style="border: 5px solid #FDEEDC; height: 33vh;">
-                    <a style="color: #000;text-decoration: none;">
-                        <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
-                            <br>
-                            <h3>Reclamar bono</h3>
-                            <br>
-                            <p>PROXIMAMENTE!</p>
-                        </div>
-                    </a>
-                </div>
+                    <div class="column" style="border: 5px solid #FDEEDC; height: 33vh;">
+                        <a href="?canjear={{bono}}" onclick="alerta()" style="color: #000;text-decoration: none;">
+                            <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
+                                <br>
+                                <h3>Reclamar bono</h3>
+                                <br>
+                                <p>{{bono}} Puntos</p>
+                                <p>PROXIMAMENTE!</p>
+                            </div>
+                        </a>
+                    </div>
 
-                <div class="column" style="border: 5px solid #FDEEDC; height: 33vh;">
-                    <a style="color: #000;text-decoration: none;">
-                        <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
-                            <br>
-                            <h3>Reclamar bono</h3>
-                            <br>
-                            <p>PROXIMAMENTE!</p>
-                        </div>
-                    </a>
-                </div>
+                {%endfor%}
 
-                <div class="column" style="border: 5px solid #FDEEDC; height: 33vh;">
-                    <a style="color: #000;text-decoration: none;">
-                        <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
-                            <br>
-                            <h3>Reclamar bono</h3>
-                            <br>
-                            <p>PROXIMAMENTE!</p>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="column" style="border: 5px solid #FDEEDC; height: 33vh;">
-                    <a style="color: #000;text-decoration: none;">
-                        <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
-                            <br>
-                            <h3>Reclamar bono</h3>
-                            <br>
-                            <p>PROXIMAMENTE!</p>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="column" style="border: 5px solid #FDEEDC; height: 33vh;">
-                    <a style="color: #000;text-decoration: none;">
-                        <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
-                            <br>
-                            <h3>Reclamar bono</h3>
-                            <br>
-                            <p>PROXIMAMENTE!</p>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="column" style="border: 5px solid #FDEEDC; height: 33vh;">
-                    <a style="color: #000;text-decoration: none;">
-                        <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
-                            <br>
-                            <h3>Reclamar bono</h3>
-                            <br>
-                            <p>PROXIMAMENTE!</p>
-                        </div>
-                    </a>
                 </div>
     
             </div>
@@ -106,5 +58,10 @@
 
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
+    <script>
+        function alerta() {
+            confirmacion = window.confirm("Desea reclamar el bono?")
+        }
+    </script>
     
 </body>
