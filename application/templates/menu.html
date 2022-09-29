@@ -17,6 +17,7 @@
 </head>
 
 <body>
+    
     <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
         <div class="container"><a class="navbar-brand" href="../">FoodCritics&nbsp;</a>
 
@@ -30,17 +31,28 @@
                 <a class="btn botones ms-auto" role="button" href="#">Sign In</a></div>
         </div>
     </nav>
-    
+    <div class="pantalla" id="pantalla">
+    <div class="ventana" id="ventana">
+        <div id="cerrar">
+            <a href="javascript:cerrar()"> <img src="{% static 'assets/img/error.png' %}"> </a> 
+        </div>
+        {% for men in menu %}
+            
+            {% for i in men.reviews %}
+
+            {% endfor %}
+            
+        {% endfor %}
+
+    </div>
+</div>
     <section class="text-center features-icon back">
         <div class="container">
             <div class="row" >
                 {%for men in menu %}
                 <div class="column" style="border: 5px solid #FDEEDC;max-width: 40%; border-radius:10px; max-height: 80%;">
-                <a style="color: #000;
-                text-decoration: none;">
+                <a href="javascript:abrir()" style="color: #000;text-decoration: none;">
                     <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3" ></div>
-                        <div class="d-flex features-icons-icon">
-                        </div>
                         <br>
                         <img src="{{men.photo.url}}" style="width: 80%; height:40%; border: 2px solid #000;border-radius:17px;">
                         <br><br>
@@ -55,17 +67,28 @@
                         <p style="text-align:left;  margin-left: 15%;"><strong >Categoria: </strong>{{men.type.tipo}}</p>
                         
                     </a>
-                    </div>{% endfor%}
+                    </div>
+                    {% endfor%}
                 </div>  
             </div>
         </div>
     </section>
-    <div class="ventana" id="">
-        holaaa
-    </div>
 
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
+    <script>
+
+        function abrir(){
+            document.getElementById('ventana').style.display="block";
+            document.getElementById('pantalla').style.display="block";
+
+        }
+        function cerrar(){
+            document.getElementById('ventana').style.display="none";
+            document.getElementById('pantalla').style.display="none";
+        }
+
+    </script>
 </body>
 
     

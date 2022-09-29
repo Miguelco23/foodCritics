@@ -1,6 +1,6 @@
 .ventana{
-    background-color: #ff34f0;
-    width:30%;
+    background-color: #f8b058;
+    width:45%;
     color: #000;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
@@ -8,4 +8,31 @@
     padding:33px;
     min-height: 250px;
     border-radius:22px;
+    position: absolute;
+    left: 28%;
+    top:15%;
+    display: none;
+}
+Body{
+    Background-color: #DBF9FC;
+}
+
+#cerrar{
+    position: absolute;
+    right: 20px;
+    top: 15px;
+
+}
+.pantalla{
+    background-color: rgba(0,0,0,0.7);
+    width:100%;
+    color: #000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    text-align: center;
+    padding:33px;
+    min-height: 100%;
+    position: absolute;
+    display:none;
+
 }
