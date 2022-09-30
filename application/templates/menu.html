@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html>
+    {% load static %}   
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>FOOD CRITICS</title>
+    <link rel="stylesheet" href="{% static 'assets/css/window.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic&amp;display=swap">
+    <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/fonts/simple-line-icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+</head>
+
+<body>
+    <div class="pantalla" id="pantalla">
+        <div class="ventana" id="ventana">
+            <div id="cerrar">
+                <a href="javascript:cerrar()"> <img src="{% static 'assets/img/error.png' %}"> </a> 
+            </div>
+            <!--
+            {% for men in menu %}
+                
+                {% for i in men.reviews %}
+    
+                {% endfor %}
+                
+            {% endfor %}
+            -->
+            <form method="post">
+    
+                {% csrf_token %}
+
+                <p>&nbsp;Nombre: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="padding: 0.5rem 1rem;
+                    font-size: 0.75rem;
+                    border-radius: 0.3rem;" name="name_user" required></p>
+                <p>Comentario: <input type="text"  style="padding: 0.5rem 1rem;
+                    font-size: 0.75rem;
+                    border-radius: 0.3rem;"  class ="in" name="comentario_user"></p>
+                
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Puntuacion:&nbsp;
+                    <select style="padding: 0.5rem 1rem;
+                    font-size: 0.75rem;
+                    border-radius: 0.3rem; margin-right: 15%;" class ="" name="puntuacion_user" min="1" max="5" required>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        </select>
+                        </p>
+
+                    <input class="btn botones ms-auto" type="submit" value="Comentar">
+                        
+            </form>
+
+        </div>
+    </div>
+    <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
+        <div class="container"><a class="navbar-brand" href="../">FoodCritics&nbsp;</a>
+
+            <b><a href="../tus-puntos" style="color: #000; text-decoration: none;">Tus puntos: {{puntos}}</a></b>
+
+            <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <a class="btn botones ms-auto" role="button" href="/">Inicio</a>
+                </div>&nbsp;&nbsp;&nbsp;&nbsp; 
+                <a class="btn botones ms-auto" role="button" href="#">Sign In</a></div>
+        </div>
+    </nav>
+    
+    <section class="text-center features-icon back">
+        <div class="container">
+            <div class="row" >
+                {%for men in menu %}
+                <div class="column" style="border: 5px solid #FDEEDC;max-width: 40%; border-radius:10px; max-height: 80%;">
+                <a href="javascript:abrir()" style="color: #000;text-decoration: none;">
+                    <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3" ></div>
+                        <br>
+                        <img src="{{men.photo.url}}" style="width: 80%; height:40%; border: 2px solid #000;border-radius:17px;">
+                        <br><br>
+                        <p class="lead mb-0"><b>
+                        <strong></strong>{{men.name}}</b>
+                        <hr style=" margin-left: 10%; margin-right: 10%;">
+                    </p>
+                        
+                        
+                        <p style="text-align:left; margin-left: 15%; "><strong >Precio: </strong>{{men.price}}</p>          
+                        <p style="text-align:left;  margin-left: 15%;"><strong  >Puntuacion: </strong>{{men.rating}}</p>
+                        <p style="text-align:left;  margin-left: 15%;"><strong >Categoria: </strong>{{men.type.tipo}}</p>
+                        
+                    </a>
+                    </div>
+                    {% endfor%}
+                </div>  
+            </div>
+        </div>
+    </section>
+
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script>
+
+        function abrir(){
+            document.getElementById('ventana').style.display="block";
+            document.getElementById('pantalla').style.display="block";
+
+        }
+        function cerrar(){
+            document.getElementById('ventana').style.display="none";
+            document.getElementById('pantalla').style.display="none";
+        }
+
+    </script>
+</body>
+
+    
+</body>
+</html>

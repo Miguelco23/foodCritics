@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpRequest
 from django.http import HttpResponse
 from .models import Comentarios, Restaurantes
+from .models import plato
 
 import googlemaps
 import pprint
@@ -20,6 +21,8 @@ places_result = gmaps.places_nearby(location='6.280506, -75.602769', radius='100
 restaurantes = Restaurantes.objects.all()
 
 puntos_user = 100
+
+bonos = [40,50,50,25,75,40]
 
 #Almacenar los datos que seran usados de los restaurantes en la variable restaurantes
 
@@ -83,6 +86,11 @@ def enviarRestaurante(request):
   restaurante = Restaurantes.objects.get(place_id=id)
   comentarios = Comentarios.objects.get(place_id=id)
   
+  termino = request.POST.get('search')
+
+  if termino:
+    return busquedaRestaurante(request)
+
   if request.POST:
     author = request.POST['name_user']
     text = request.POST['comentario_user']
@@ -115,9 +123,9 @@ def mapa(request):
 
 def puntos(request):
 
-  global puntos_user
+  global puntos_user, bonos
 
-  return render(request, 'puntos.html', {'puntos' : puntos_user})
+  return render(request, 'puntos.html', {'puntos' : puntos_user, 'bonos': bonos})
 
 
 
@@ -135,4 +143,24 @@ def puntuacionTotal(comentarios):
   puntuacion_total /= len(comentarios.reviews) if len(comentarios.reviews) > 0 else 1
 
   return puntuacion_total
+from django.utils.datastructures import MultiValueDictKeyError
+
+def menu(request):
+  global puntos_user
+
+  id = request.GET['menu']
+  menu = plato.objects.filter(restaurante=id)
+
+
+
+  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user})
   
+def busquedaRestaurante(request):
+  termino = request.POST.get('search')
+
+  restaurantes = Restaurantes.objects.all()
+  if termino:
+    if Restaurantes.objects.filter(name=termino):
+      restarurantes = Restaurantes.objects.filter(name_icontains = termino)
+
+  return render(request, 'busquedaRestaurante.html',{"restaurants":restaurantes})
