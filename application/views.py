@@ -143,6 +143,7 @@ def puntuacionTotal(comentarios):
   puntuacion_total /= len(comentarios.reviews) if len(comentarios.reviews) > 0 else 1
 
   return puntuacion_total
+
 from django.utils.datastructures import MultiValueDictKeyError
 
 def menu(request):
@@ -151,9 +152,8 @@ def menu(request):
   id = request.GET['menu']
   menu = plato.objects.filter(restaurante=id)
 
-
-
   return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user})
+
   
 def busquedaRestaurante(request):
   termino = request.POST.get('search')
