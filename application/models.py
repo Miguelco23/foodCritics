@@ -18,6 +18,7 @@ class Comentarios(models.Model):
     reviews = models.JSONField()
 
 class plato(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length =200)
     price = models.IntegerField()
     rating = models.DecimalField(max_digits=2, decimal_places= 1)

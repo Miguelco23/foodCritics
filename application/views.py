@@ -164,3 +164,34 @@ def busquedaRestaurante(request):
       restarurantes = Restaurantes.objects.filter(name_icontains = termino)
 
   return render(request, 'busquedaRestaurante.html',{"restaurants":restaurantes})
+
+def reviewMenu(request):
+  global puntos_user
+  id = request.GET['reviewMenu']
+  #print(id)
+  platos = plato.objects.filter(id=id)
+  comentarios = plato.objects.get(id=id)
+  #print(platos)
+  if request.POST:
+    author = request.POST['name_user']
+    text = request.POST['comentario_user']
+    rating = request.POST['puntuacion_user']
+
+    message = f'nombre: {author}\ncomentario: {text}\npuntuacion: {rating}'
+
+    print(message)
+
+    comentario = {"author" : author, "time" : "No definido", "text" : text, "rating" : rating}
+    
+    comentarios.reviews.append(comentario)
+
+    almacenar_comentarios = []
+
+    for coment in comentarios.reviews:
+      almacenar_comentarios.append(coment)
+
+    puntos_user += 10
+
+    plato.objects.filter(id = id).update(reviews = almacenar_comentarios)
+
+  return render(request, 'reviewMenu.html',{'plato':platos})

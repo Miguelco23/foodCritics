@@ -27,4 +27,6 @@ urlpatterns = [
     path('tus-puntos/', applicationViews.puntos),
     path('menu/',applicationViews.menu),
     path('busqueda/',applicationViews.busquedaRestaurante),
+    path('reviewMenu/', applicationViews.reviewMenu),
+
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

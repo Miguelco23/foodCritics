@@ -17,73 +17,6 @@
 </head>
 
 <body>
-    <div class="pantalla" id="pantalla">
-        <div class="ventana" id="ventana">
-
-            <div id="cerrar">
-                <a href="javascript:cerrar()"> <img src="{% static 'assets/img/error.png' %}"> </a> 
-            </div>
-            {%csrf_token%}
-            <form method="post">
-                <p>&nbsp;Nombre: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="padding: 0.5rem 1rem;
-                    font-size: 0.75rem;
-                    border-radius: 0.3rem;" name="name_user" required></p>
-                <p>Comentario: <input type="text"  style="padding: 0.5rem 1rem;
-                    font-size: 0.75rem;
-                    border-radius: 0.3rem;"  class ="in" name="comentario_user"></p>
-                
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Puntuacion:&nbsp;
-                    <select style="padding: 0.5rem 1rem;
-                    font-size: 0.75rem;
-                    border-radius: 0.3rem; margin-right: 15%;" class ="" name="puntuacion_user" min="1" max="5" required>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        </select>
-                        </p>
-                    <input class="btn botones ms-auto" type="submit" value="Comentar">
-            </form>
-
-
-            <div>
-                 <!---
-                    {% for review in men.reviews %}
-
-                        <p style="text-align:left; margin-left: 15%; "><strong >Precio: </strong>{{review.author}}</p>
-                    {% endfor %}
-                    --> 
-                    <section class="text-center features-icon back">
-                        <div class="container">
-                            <div class="row">
-                                {%for men in menu %}
-                                
-                                    <div class="column" style="border: 5px solid #FDEEDC;max-width: 40%; border-radius:10px; max-height: 80%;">
-                                    <p href="" style="color: #000;text-decoration: none;">
-                                        <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3" ></div>
-                                        {% for review in men.reviews %}
-                                            <strong> {{review.author}}</b></strong>
-                                            <p> {{review.time}}</p>
-                                            <p> {{review.text}}</p>
-                                            <p> {{review.rating}}</p>
-                                        {% endfor %}
-                                        
-                                    </p>
-                                        
-                                </p>
-                                    </div>
-                                    
-                                    {% endfor%}
-                                </div>  
-                            </div>
-                        </div>
-                    </section>
-
-            </div>
-
-        </div>
-    </div>
     <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
         <div class="container"><a class="navbar-brand" href="../">FoodCritics&nbsp;</a>
 
@@ -103,7 +36,7 @@
             <div class="row">
                 {%for men in menu %}
                 <div class="column" style="border: 5px solid #FDEEDC;max-width: 40%; border-radius:10px; max-height: 80%;">
-                <a href="javascript:abrir()" style="color: #000;text-decoration: none;">
+                <a href="../reviewMenu/?reviewMenu={{men.id}}" style="color: #000;text-decoration: none;">
                     <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3" ></div>
                         <br>
                         <img src="{{men.photo.url}}" style="width: 80%; height:40%; border: 2px solid #000;border-radius:17px;">
