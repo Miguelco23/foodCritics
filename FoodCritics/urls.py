@@ -28,7 +28,6 @@ urlpatterns = [
     path('menu/',applicationViews.menu),
     path('menuMayor/',applicationViews.menuMayor),
     path('menuMenor/',applicationViews.menuMenor),
-    path('busqueda/',applicationViews.busquedaRestaurante),
     path('reviewMenu/', applicationViews.reviewMenu),
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

@@ -75,12 +75,14 @@ def home(request):
 
   searchTerm = request.GET.get('search')
   rest = Restaurantes.objects.all()
-
   if searchTerm:
     if(Restaurantes.objects.filter(name__icontains=searchTerm)):
       rest = Restaurantes.objects.filter(name__icontains = searchTerm)
-
+    elif(Categorias.objects.filter(tipo__icontains=searchTerm)):
+      temp = Categorias.objects.get(tipo__icontains=searchTerm)
+      rest = Restaurantes.objects.filter(type = temp)
   return render(request, 'home.html', {'puntos' : puntos_user,"restaurants":rest})
+
 
 def enviarRestaurante(request):
   
@@ -204,11 +206,3 @@ def reviewMenu(request):
     plato.objects.filter(id = id).update(reviews = almacenar_comentarios)
 
   return render(request, 'reviewMenu.html',{'plato':platos})
-
-def busquedaRestaurante(request):
-  termino = request.GET.get('search')
-  busqueda = str(termino).split()
-  restaurantes = Restaurantes.objects.all()
-  
-
-  return render(request, 'busquedaRestaurante.html',{"restaurantes":restaurantes,"termino":termino})
