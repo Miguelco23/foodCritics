@@ -26,6 +26,8 @@ urlpatterns = [
     path('mapa/',applicationViews.mapa),
     path('tus-puntos/', applicationViews.puntos),
     path('menu/',applicationViews.menu),
+    path('menuMayor/',applicationViews.menuMayor),
+    path('menuMenor/',applicationViews.menuMenor),
     path('busqueda/',applicationViews.busquedaRestaurante),
     path('reviewMenu/', applicationViews.reviewMenu),
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpRequest
 from django.http import HttpResponse
-from .models import Comentarios, Restaurantes
+from .models import Comentarios, Restaurantes, Categorias
 from .models import plato
 
 import googlemaps
@@ -73,7 +73,14 @@ for place in places_result['results']:
 def home(request):
   global puntos_user
 
-  return render(request, 'home.html', {'restaurants' : restaurantes, 'puntos' : puntos_user})
+  searchTerm = request.GET.get('search')
+  rest = Restaurantes.objects.all()
+
+  if searchTerm:
+    if(Restaurantes.objects.filter(name__icontains=searchTerm)):
+      rest = Restaurantes.objects.filter(name__icontains = searchTerm)
+
+  return render(request, 'home.html', {'puntos' : puntos_user,"restaurants":rest})
 
 def enviarRestaurante(request):
   
@@ -85,11 +92,6 @@ def enviarRestaurante(request):
 
   restaurante = Restaurantes.objects.get(place_id=id)
   comentarios = Comentarios.objects.get(place_id=id)
-  
-  termino = request.POST.get('search')
-
-  if termino:
-    return busquedaRestaurante(request)
 
   if request.POST:
     author = request.POST['name_user']
@@ -148,22 +150,29 @@ from django.utils.datastructures import MultiValueDictKeyError
 
 def menu(request):
   global puntos_user
+  id = request.GET['menu']
+  restaurante = Restaurantes.objects.get(place_id=id)
+  menu = plato.objects.filter(restaurante=id)
+  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user, 'restaurante' : restaurante})
 
+def menuMayor(request):
+  global puntos_user
   id = request.GET['menu']
   menu = plato.objects.filter(restaurante=id)
+  restaurante = Restaurantes.objects.get(place_id=id)
+  menu = menu.order_by('-price')
+  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user,'restaurante' : restaurante})
 
-  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user})
+def menuMenor(request):
+  global puntos_user
+  id = request.GET['menu']
+  menu = plato.objects.filter(restaurante=id)
+  restaurante = Restaurantes.objects.get(place_id=id)
+  menu = menu.order_by('price')
 
-  
-def busquedaRestaurante(request):
-  termino = request.POST.get('search')
+  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user,'restaurante' : restaurante})
 
-  restaurantes = Restaurantes.objects.all()
-  if termino:
-    if Restaurantes.objects.filter(name=termino):
-      restarurantes = Restaurantes.objects.filter(name_icontains = termino)
 
-  return render(request, 'busquedaRestaurante.html',{"restaurants":restaurantes})
 
 def reviewMenu(request):
   global puntos_user
@@ -195,3 +204,11 @@ def reviewMenu(request):
     plato.objects.filter(id = id).update(reviews = almacenar_comentarios)
 
   return render(request, 'reviewMenu.html',{'plato':platos})
+
+def busquedaRestaurante(request):
+  termino = request.GET.get('search')
+  busqueda = str(termino).split()
+  restaurantes = Restaurantes.objects.all()
+  
+
+  return render(request, 'busquedaRestaurante.html',{"restaurantes":restaurantes,"termino":termino})
