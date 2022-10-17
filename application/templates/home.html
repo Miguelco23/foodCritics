@@ -123,6 +123,32 @@
     </footer>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script> 
+
+        function success(pos) {
+            const crd = pos.coords;
+            const latitudes = crd.latitude;
+            const longitudes = crd.longitude;
+
+            $.ajax({
+                type: 'POST',
+                url: '/',
+                data: {
+                    latitudes,
+                    longitudes
+                }
+            });
+
+        }
+
+        function error(err) {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+        }
+
+        navigator.geolocation.getCurrentPosition(success, error);
+    
+    </script>
 </body>
 
     

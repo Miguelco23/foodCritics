@@ -36,7 +36,7 @@
                 {% for bono in bonos %}
                 
                     <div class="column" style="border: 5px solid #FDEEDC; height: 33vh;">
-                        <a href="?canjear={{bono}}" onclick="alerta()" style="color: #000;text-decoration: none;">
+                        <a href="?redeem={{bono}}" onclick="alerta('{{bono}}')" style="color: #000;text-decoration: none;">
                             <div class="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
                                 <br>
                                 <h3>Reclamar bono</h3>
@@ -54,14 +54,37 @@
             </div>
         </div>
     </section>
-    <section class="showcase"></section>
 
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <script>
-        function alerta() {
-            confirmacion = window.confirm("Desea reclamar el bono?")
+        function alerta(puntos) {
+            
+            if(window.confirm("¿Desea reclamar el bono?")){
+
+                if(parseInt("{{puntos}}") >= puntos){    
+                    var redeem = '?redeem='+puntos;
+                    
+                    $.ajax({
+                        type: 'POST',
+                        url: redeem,
+                        data: {
+                            'redeem': puntos
+                        }
+                    });
+                } else {
+                    alert('No tienes suficientes puntos :(');
+                }
+
+
+            } else {
+                alert('cancelado');
+            }
+
+            
+            
         }
+
     </script>
     
 </body>
