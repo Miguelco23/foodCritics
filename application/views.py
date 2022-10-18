@@ -16,8 +16,6 @@ gmaps = googlemaps.Client(key=API_KEY)
 coordinatesLatitude = ''
 coordinatesLongitude = ''
 
-restaurantes = Restaurantes.objects.all()
-
 puntos_user = 100
 
 bonos = [40,50,50,25,75,40]
@@ -30,13 +28,16 @@ def home(request):
   if request.method == 'POST':
     coordinatesLatitude = request.POST['latitudes']
     coordinatesLongitude = request.POST['longitudes']
+    
+    consulta()
+    
+  restaurantes = Restaurantes.objects.all()
 
   return render(request, 'home.html', {'restaurants' : restaurantes, 'puntos' : puntos_user})
 
-
 #Obtencion de restaurantes cerca de la ubicacion especificada en un radio de 1000 metros
-if coordinatesLongitude != '' and coordinatesLatitude != '':
-  places_result = gmaps.places_nearby(location='6.280506, -75.602769', radius='1000', type='restaurant', open_now=False)
+def consulta():
+  places_result = gmaps.places_nearby(location=f'{coordinatesLatitude}, {coordinatesLongitude}', radius='1000', type='restaurant', open_now=False)
 
   #Almacenar los datos que seran usados de los restaurantes en la variable restaurantes
 
