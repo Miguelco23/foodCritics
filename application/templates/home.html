@@ -38,17 +38,21 @@
                     <form>
                         <div class="row">
                             <div class="col-12 col-md-9 mb-2 mb-md-0"><input class="form-control form-control-lg" type="search" name="search" placeholder="Buscar restaurante"></div>
-                            <div class="col-12 col-md-3"><button class="btn botones btn-lg" type="submit">Buscar</button></div>
+                            <div class="col-12 col-md-3">
+                            <button class="btn botones btn-lg" type="submit">Buscar</button></div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </header>
+    
     <section class="text-center features-icon back">
         <div class="container">
             <div class="row">
+                
                 {% for restaurant in restaurants %}
+            
                 <div class="column" style="border: 5px solid #FDEEDC;">
                 <a href="restaurante?restaurant={{restaurant.place_id}}" style="color: #000;
                 text-decoration: none;">
@@ -65,14 +69,17 @@
                         {% else %}
                             <p><strong>Aun no hay puntuaciones</strong></p>
                         {% endif %}
+                        <p><strong>Categoria:</strong> {{restaurant.type.tipo}}</p>
                         <p><strong>Direccion:</strong> {{restaurant.address}}</p>
                     </a>
                     </div>
                 </div>   
+    
                 {% endfor%}
             </div>
         </div>
     </section>
+    
     <section class="showcase"></section>
     <section class="text-center bg-section testimonials">
         <div class="container">

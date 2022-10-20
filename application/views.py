@@ -95,11 +95,6 @@ def enviarRestaurante(request):
 
   restaurante = Restaurantes.objects.get(place_id=id)
   comentarios = Comentarios.objects.get(place_id=id)
-  
-  termino = request.POST.get('search')
-
-  if termino:
-    return busquedaRestaurante(request)
 
   if request.POST:
     author = request.POST['name_user']
@@ -167,8 +162,6 @@ def menu(request):
   id = request.GET['menu']
   menu = plato.objects.filter(restaurante=id)
 
-
-
   return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user})
   
 def busquedaRestaurante(request):
@@ -178,5 +171,3 @@ def busquedaRestaurante(request):
   if termino:
     if Restaurantes.objects.filter(name=termino):
       restarurantes = Restaurantes.objects.filter(name_icontains = termino)
-
-  return render(request, 'busquedaRestaurante.html',{"restaurants":restaurantes})
