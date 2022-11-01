@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Comentarios, Restaurantes
+from .models import Comentarios, Restaurantes, Categorias
 from .models import plato
 
 import googlemaps
@@ -18,11 +18,22 @@ coordinatesLongitude = ''
 
 puntos_user = 100
 
-bonos = [40,50,50,25,75,40]
+bonos = [40,50,50,25,75,40] 
 
 @csrf_exempt
 def home(request):
   global puntos_user, coordinatesLatitude, coordinatesLongitude
+
+  searchTerm = request.GET.get('search')
+  rest = Restaurantes.objects.all()
+
+  if searchTerm:
+    if(Restaurantes.objects.filter(name__icontains=searchTerm)):
+      rest = Restaurantes.objects.filter(name__icontains = searchTerm)
+
+    elif(Categorias.objects.filter(tipo__icontains=searchTerm)):
+      temp = Categorias.objects.get(tipo__icontains=searchTerm)
+      rest = Restaurantes.objects.filter(type = temp)
 
   #Si el usuario permite conocer la ubicacion, la almacena
   if request.method == 'POST':
@@ -30,10 +41,8 @@ def home(request):
     coordinatesLongitude = request.POST['longitudes']
     
     consulta()
-    
-  restaurantes = Restaurantes.objects.all()
 
-  return render(request, 'home.html', {'restaurants' : restaurantes, 'puntos' : puntos_user})
+  return render(request, 'home.html', {'restaurants' : rest, 'puntos' : puntos_user})
 
 #Obtencion de restaurantes cerca de la ubicacion especificada en un radio de 1000 metros
 def consulta():
@@ -158,11 +167,27 @@ def puntuacionTotal(comentarios):
 
 def menu(request):
   global puntos_user
+  id = request.GET['menu']
+  restaurante = Restaurantes.objects.get(place_id=id)
+  menu = plato.objects.filter(restaurante=id)
+  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user, 'restaurante' : restaurante})
 
+def menuMayor(request):
+  global puntos_user
   id = request.GET['menu']
   menu = plato.objects.filter(restaurante=id)
+  restaurante = Restaurantes.objects.get(place_id=id)
+  menu = menu.order_by('-price')
+  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user,'restaurante' : restaurante})
 
-  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user})
+def menuMenor(request):
+  global puntos_user
+  id = request.GET['menu']
+  menu = plato.objects.filter(restaurante=id)
+  restaurante = Restaurantes.objects.get(place_id=id)
+  menu = menu.order_by('price')
+
+  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user,'restaurante' : restaurante})
   
 def busquedaRestaurante(request):
   termino = request.POST.get('search')
@@ -171,3 +196,34 @@ def busquedaRestaurante(request):
   if termino:
     if Restaurantes.objects.filter(name=termino):
       restarurantes = Restaurantes.objects.filter(name_icontains = termino)
+
+def reviewMenu(request):
+  global puntos_user
+  id = request.GET['reviewMenu']
+  #print(id)
+  platos = plato.objects.filter(id=id)
+  comentarios = plato.objects.get(id=id)
+  #print(platos)
+  if request.POST:
+    author = request.POST['name_user']
+    text = request.POST['comentario_user']
+    rating = request.POST['puntuacion_user']
+
+    message = f'nombre: {author}\ncomentario: {text}\npuntuacion: {rating}'
+
+    print(message)
+
+    comentario = {"author" : author, "time" : "No definido", "text" : text, "rating" : rating}
+    
+    comentarios.reviews.append(comentario)
+
+    almacenar_comentarios = []
+
+    for coment in comentarios.reviews:
+      almacenar_comentarios.append(coment)
+
+    puntos_user += 10
+
+    plato.objects.filter(id = id).update(reviews = almacenar_comentarios)
+
+  return render(request, 'reviewMenu.html',{'plato':platos, 'puntos': puntos_user})
