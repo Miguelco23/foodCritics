@@ -1,11 +1,15 @@
+from winreg import QueryInfoKey
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Comentarios, Restaurantes, Categorias
+from .models import Comentarios, Restaurantes, Categorias, Usuarios
 from .models import plato
-
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_protect
+from django.contrib import messages
 import googlemaps
 
+login_check = False
 # Create your views here.\
 
 API_KEY = 'AIzaSyBFw1F6ZxOpsbdWsuJJAH5YhRYXMlQALtA' #Identificador en la API de Google --- YOUR API KEY
@@ -227,3 +231,59 @@ def reviewMenu(request):
     plato.objects.filter(id = id).update(reviews = almacenar_comentarios)
 
   return render(request, 'reviewMenu.html',{'plato':platos, 'puntos': puntos_user})
+
+
+def Registro(request):
+  if request.method == 'POST':
+
+    name = request.POST['name']
+    email = request.POST['email']
+    password = request.POST['pass']
+    points = request.POST['points']
+
+    if verifica_registro(email):
+      messages.info(request, "Usuario ya resgistrado, por favor ingresa")
+    else:  
+      agregar = Usuarios(name = name, email = email, password = password, points = points)
+      agregar.save()
+      return render(request, 'homeiniciado.html')
+
+  return render(request, 'registro.html')
+
+def verifica_registro(criterio):
+  query = False
+  if True:
+    query = Usuarios.objects.filter(email = criterio).exists()
+  return query
+
+def Ingreso(request):
+  global login_check
+  if login_check:
+    return render(request, 'homeiniciado.html')
+  if request.method == 'POST':
+    email = request.POST['email']
+    password = request.POST['pass']
+    try:
+      detalleUsuario = Usuarios.objects.get(email = request.POST['email'], password = request.POST['pass'])
+      request.session['email'] = detalleUsuario.email
+      request.session['pass'] = detalleUsuario.password
+      request.session['id'] = detalleUsuario.id
+      login_check = True
+      return render(request, 'homeiniciado.html')
+
+    except Usuarios.DoesNotExist as e:
+      messages.info(request,"Correo y/o contraseña no son correctos")
+
+  return render (request, 'ingreso.html')
+
+def HomeIniciado(request):
+  global login_check
+  email = request.session['email']
+  #datos = Usuarios.objects.filter(email = identidad)
+  print(email)
+  return render(request, 'homeiniciado.html', {'datos': email})
+
+def logout_request(request):
+  global login_check
+  login_check = False
+  return home(request)

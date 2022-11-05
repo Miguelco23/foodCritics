@@ -17,6 +17,13 @@ class Comentarios(models.Model):
     place_id = models.CharField(primary_key=True, max_length=100)
     reviews = models.JSONField()
 
+class Usuarios(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length =200)
+    email = models.CharField(max_length =200)
+    password = models.CharField(max_length =50)
+    points = models.IntegerField()
+
 class plato(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length =200)
