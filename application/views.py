@@ -255,9 +255,9 @@ def verifica_registro(criterio):
   if True:
     query = Usuarios.objects.filter(email = criterio).exists()
   return query
-
 def Ingreso(request):
   global login_check
+  rest = Restaurantes.objects.all()
   if login_check:
     return render(request, 'homeiniciado.html')
   if request.method == 'POST':
@@ -268,8 +268,9 @@ def Ingreso(request):
       request.session['email'] = detalleUsuario.email
       request.session['pass'] = detalleUsuario.password
       request.session['id'] = detalleUsuario.id
+      request.session['points'] = detalleUsuario.id
       login_check = True
-      return render(request, 'homeiniciado.html')
+      return render(request, 'salto2.html')
 
     except Usuarios.DoesNotExist as e:
       messages.info(request,"Correo y/o contraseña no son correctos")
@@ -278,12 +279,29 @@ def Ingreso(request):
 
 def HomeIniciado(request):
   global login_check
-  email = request.session['email']
-  #datos = Usuarios.objects.filter(email = identidad)
-  print(email)
-  return render(request, 'homeiniciado.html', {'datos': email})
+  searchTerm = request.GET.get('search')
+  rest = Restaurantes.objects.all()
+  detalle = request.session['email']
+  detalleUsuario = Usuarios.objects.get(email = detalle)
+
+  if searchTerm:
+    if(Restaurantes.objects.filter(name__icontains=searchTerm)):
+      rest = Restaurantes.objects.filter(name__icontains = searchTerm)
+
+    elif(Categorias.objects.filter(tipo__icontains=searchTerm)):
+      temp = Categorias.objects.get(tipo__icontains=searchTerm)
+      rest = Restaurantes.objects.filter(type = temp)
+
+  return render(request, 'homeiniciado.html',{"detalle":detalleUsuario, 'restaurants' : rest})
 
 def logout_request(request):
   global login_check
   login_check = False
-  return home(request)
+  return Salto(request)
+
+def Salto(request):
+  return render(request, 'salto.html')
+
+def Salto2(request):
+  global login_check
+  return render(request, 'salto2.html')
