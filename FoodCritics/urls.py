@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', applicationViews.home ),
+    path('', applicationViews.home, name='home'),
     path('restaurante/', applicationViews.enviarRestaurante),
     path('mapa/',applicationViews.mapa),
     path('tus-puntos/', applicationViews.puntos),
@@ -31,7 +31,9 @@ urlpatterns = [
     path('reviewMenu/', applicationViews.reviewMenu),
     path('registrarse/', applicationViews.Registro),
     path('ingreso/', applicationViews.Ingreso),
-    path('home/', applicationViews.HomeIniciado),
-    path('/index', applicationViews.logout_request, name='cerrar_sesion'),
+    path('home/', applicationViews.HomeIniciado, name='hom'),
+    path('index/', applicationViews.logout_request, name='cerrar_sesion'),
+    path('salto/', applicationViews.Salto),
+    path('salto2/', applicationViews.Salto2),
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
