@@ -29,5 +29,9 @@ urlpatterns = [
     path('menuMayor/',applicationViews.menuMayor),
     path('menuMenor/',applicationViews.menuMenor),
     path('reviewMenu/', applicationViews.reviewMenu),
+    path('registrarse/', applicationViews.Registro),
+    path('ingreso/', applicationViews.Ingreso),
+    path('home/', applicationViews.HomeIniciado),
+    path('/index', applicationViews.logout_request, name='cerrar_sesion'),
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
