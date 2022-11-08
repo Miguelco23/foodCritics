@@ -135,9 +135,11 @@ def enviarRestaurante(request):
 
 
 def mapa(request):
-  global puntos_user
+  global puntos_user, coordinatesLongitude, coordinatesLatitude, API_KEY
 
-  return render(request, 'mapa.html', {'puntos' : puntos_user})
+  coordinates = { 'lat': coordinatesLatitude, 'lng': coordinatesLongitude}
+
+  return render(request, 'mapa.html', {'puntos' : puntos_user, 'coordinates' : coordinates, 'KEY': API_KEY})
 
 @csrf_exempt
 def puntos(request):
