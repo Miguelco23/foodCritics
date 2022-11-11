@@ -35,5 +35,6 @@ urlpatterns = [
     path('index/', applicationViews.logout_request, name='cerrar_sesion'),
     path('salto/', applicationViews.Salto),
     path('salto2/', applicationViews.Salto2),
+    path('restauranteIniciado/', applicationViews.restauranteIniciado),
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

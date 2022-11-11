@@ -278,7 +278,7 @@ def Ingreso(request):
   return render (request, 'ingreso.html')
 
 def HomeIniciado(request):
-  global login_check
+  global login_check 
   searchTerm = request.GET.get('search')
   rest = Restaurantes.objects.all()
   detalle = request.session['email']
@@ -300,8 +300,45 @@ def logout_request(request):
   return Salto(request)
 
 def Salto(request):
+  global login_check
   return render(request, 'salto.html')
 
 def Salto2(request):
   global login_check
   return render(request, 'salto2.html')
+
+def restauranteIniciado(request):
+  global login_check
+  global puntos_user
+
+  id = request.GET['restaurant']
+
+  my_fields = ['name', 'price_level', 'rating', 'formatted_address', 'user_ratings_total', 'review', 'place_id']
+
+  restaurante = Restaurantes.objects.get(place_id=id)
+  comentarios = Comentarios.objects.get(place_id=id)
+
+  if request.POST:
+    author = request.POST['name_user']
+    text = request.POST['comentario_user']
+    rating = request.POST['puntuacion_user']
+
+    message = f'nombre: {author}\ncomentario: {text}\npuntuacion: {rating}'
+
+    print(message)
+
+    comentario = {"author" : author, "time" : "No definido", "text" : text, "rating" : rating}
+    
+    comentarios.reviews.append(comentario)
+
+    almacenar_comentarios = []
+
+    for coment in comentarios.reviews:
+      almacenar_comentarios.append(coment)
+
+    puntos_user += 10
+
+    Comentarios.objects.filter(place_id = id).update(reviews = almacenar_comentarios)
+
+  return render(request, 'restauranteIniciado.html', {'place_id' : id, 'restaurante' : restaurante, 'comentarios' : comentarios, 'puntos' : puntos_user})
+  
