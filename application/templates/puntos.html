@@ -14,21 +14,21 @@
 </head>
 <body>
     <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
-        <div class="container"><a class="navbar-brand" href="../">FoodCritics&nbsp;</a>
+        <div class="container"><a class="navbar-brand" href="../home">FoodCritics&nbsp;</a>
 
             <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <div class="collapse navbar-collapse" id="navcol-1">
-                    <a class="btn botones ms-auto" role="button" href="../">Inicio</a>
+                    <a class="btn botones ms-auto" role="button" href="../home">Inicio</a>
                 </div>&nbsp;&nbsp;&nbsp;&nbsp; 
-                <a class="btn botones ms-auto" role="button" href="#">Sign In</a></div>
+                <a class="btn botones ms-auto" role="button" href="{% url 'cerrar_sesion'%}">Cerrar Sesion</a>
         </div>
     </nav>
 
     <section class="text-center features-icon back" style="height: 100%;">
         <div class="container">
 
-            <h3>Tus puntos: {{puntos}}</h3>
+            <h3>Tus puntos: {{detalle.points}}</h3>
             <br>
 
             <div class="row">
