@@ -154,7 +154,11 @@
             console.warn(`ERROR(${err.code}): ${err.message}`);
         }
 
-        navigator.geolocation.getCurrentPosition(success, error);
+        var opciones = {
+            enableHighAccurracy: true
+        }
+
+        navigator.geolocation.getCurrentPosition(success, error, opciones);
     
     </script>
 </body>

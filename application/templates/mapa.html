@@ -27,7 +27,7 @@
         </div>
     </nav>
 
-    <section style="width: 60%; height:500px; margin-left: 20%; margin-top: 3%;border: 2px solid #000;">
+    <section style="width: 80%; height:500px; margin-left: 10%; margin-top: 3%;border: 2px solid #000;">
 
         <div id="map" style="width: 100%; height: 100%;"></div>
 
@@ -37,8 +37,6 @@
                 let coordinates = "{{coordinates|safe}}";
                 coordinates = coordinates.split("'")
 
-                console.log(coordinates)
-
                 var coord = {lat: parseFloat(coordinates[3]), lng: parseFloat(coordinates[7])}
 
                 console.log(coord)
@@ -47,18 +45,49 @@
                     zoom: 15,
                     center: coord,
                     disableDefaultUI: true,
-                    maxZoom: 16,
+                    maxZoom: 17,
                     minZoom: 14,
                     mapId: 'fa4afd55716260be',
                 }); 
-
-
 
                 var usuario = new google.maps.Marker({
                     position: coord,
                     map: map,
                     label: 'Yo'
                 });
+
+                "{% for restaurant in restaurants%}"
+
+                if("{{restaurant.location|safe}}" != "{}"){
+                    
+                    let locationRest = "{{restaurant.location|safe}}"
+
+                    locationRest = locationRest.split("'")
+
+                    let lat = locationRest[2]
+
+                    lat = lat.slice(2, -2)
+
+                    let lng = locationRest[4]
+
+                    lng = lng.slice(2, -1)
+
+                    locationRest = {"lat": parseFloat(lat), "lng": parseFloat(lng)}
+
+                    console.log(locationRest)
+
+                    new google.maps.Marker({
+                        position: locationRest,
+                        map,
+                        title: "{{restaurant.name}}"
+                    });
+
+                }
+
+                "{% endfor %}"
+
+                
+
             }
     
         </script>
