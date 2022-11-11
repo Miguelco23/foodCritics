@@ -11,6 +11,7 @@ class Restaurantes(models.Model):
     address = models.CharField(max_length=200)
     place_id = models.CharField(primary_key=True, max_length=100)
     rating = models.DecimalField(max_digits=2, decimal_places= 1)
+    location = models.JSONField(null=False)
     type = models.ForeignKey(Categorias, on_delete=models.CASCADE,null=True, blank=True)
 
 class Comentarios(models.Model):

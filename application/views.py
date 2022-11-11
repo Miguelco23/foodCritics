@@ -2,8 +2,7 @@ from winreg import QueryInfoKey
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Comentarios, Restaurantes, Categorias, Usuarios
-from .models import plato
+from .models import Comentarios, Restaurantes, Categorias, Usuarios, plato
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
@@ -60,6 +59,8 @@ def consulta():
 
     nombre = place['name']
 
+    location = place['geometry']['viewport']['northeast']
+
     #Campos que seran almacenados en la base de datos
     parametros_datos = gmaps.place(place_id=my_place_id, fields= ['rating'], language="ES")
 
@@ -94,8 +95,13 @@ def consulta():
 
     #Creacion del restaurante en la base de datos, en caso de existir lo actualiza
 
-    restaurante_db = Restaurantes.objects.get_or_create(name= nombre, address= place['vicinity'], place_id = my_place_id, rating = rating_rest)
-    comentarios_db = Comentarios.objects.get_or_create(place_id = my_place_id, reviews = comentarios)
+    try:
+      Restaurantes.objects.filter(place_id = my_place_id).update(name= nombre, address= place['vicinity'], rating = rating_rest, location = location)
+      Comentarios.objects.filter(place_id = my_place_id).update(reviews = comentarios)
+
+    except:
+      Restaurantes.objects.create(name= nombre, address= place['vicinity'], place_id = my_place_id, rating = rating_rest, location = location)
+      Comentarios.objects.create(place_id = my_place_id, reviews = comentarios)
 
 
 def enviarRestaurante(request):
@@ -135,9 +141,13 @@ def enviarRestaurante(request):
 
 
 def mapa(request):
-  global puntos_user
+  global puntos_user, coordinatesLongitude, coordinatesLatitude, API_KEY
 
-  return render(request, 'mapa.html', {'puntos' : puntos_user})
+  rest = Restaurantes.objects.all()
+
+  coordinates = { 'lat': coordinatesLatitude, 'lng': coordinatesLongitude}
+
+  return render(request, 'mapa.html', {'puntos' : puntos_user, 'coordinates' : coordinates, 'KEY': API_KEY, 'restaurants': rest})
 
 @csrf_exempt
 def puntos(request):
