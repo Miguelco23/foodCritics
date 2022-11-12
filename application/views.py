@@ -19,7 +19,7 @@ gmaps = googlemaps.Client(key=API_KEY)
 coordinatesLatitude = ''
 coordinatesLongitude = ''
 
-puntos_user = 100
+puntos_user = 0
 
 bonos = [40,50,50,25,75,40] 
 
@@ -204,12 +204,17 @@ def puntos(request):
   detalle = request.session['email']
   detalleUsuario = Usuarios.objects.get(email = detalle)
 
-  
+  puntos_user = detalleUsuario.points
+
   if request.POST:
 
     redeem = request.POST['redeem']
 
     puntos_user -= int(redeem)
+
+    Usuarios.objects.filter(email = detalle).update(points = puntos_user)
+
+
 
   return render(request, 'puntos.html', {'puntos' : puntos_user, 'bonos': bonos,'detalle' : detalleUsuario})
 
@@ -315,7 +320,7 @@ def Registro(request):
     else:  
       agregar = Usuarios(name = name, email = email, password = password, points = points)
       agregar.save()
-      return render(request, 'homeiniciado.html')
+      return render(request, 'salto2.html')
 
   return render(request, 'registro.html')
 

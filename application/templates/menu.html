@@ -18,21 +18,23 @@
 
 <body>
     <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
-        <div class="container"><a class="navbar-brand" href="../home">FoodCritics&nbsp;</a>
-
-            <b><a href="../tus-puntos" style="color: #000; text-decoration: none;">Tus puntos: {{detalle.points}}</a></b>
+        <div class="container"><a class="navbar-brand" href="../">FoodCritics&nbsp;</a>
 
             <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <div class="collapse navbar-collapse" id="navcol-1">
-                    <a class="btn botones ms-auto" role="button" href="/home">Inicio</a>
+                    <a class="btn botones ms-auto" role="button" href="/">Inicio</a>
                 </div>&nbsp;&nbsp;&nbsp;&nbsp; 
-                <a class="btn botones ms-auto" role="button" href="{% url 'cerrar_sesion'%}">Cerrar Sesion</a>
+                <a class="btn botones ms-auto" role="button" href="#">Sign In</a></div>
         </div>
     </nav>
     
     <section class="text-center features-icon back"  id="linea">
         <h1 style="margin-top: -50px">MENU</h1>
+
+        <div id="container" style="width: 80%; padding-left: 20%;"></div>
+
+
         <div class="container">
             <br>
             <p style="margin-top: -15px">Filtrar por precio: &nbsp;&nbsp;&nbsp;&nbsp;
@@ -67,6 +69,10 @@
     </section>
 
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script>
 
@@ -83,6 +89,62 @@
         }
 
     </script>
+
+    <script>
+
+        var categories = []
+        var data = []
+
+        "{% for men in menu %}"
+
+            categories.push("{{men.name}}")
+            data.push(parseFloat("{{men.rating}}"))
+
+        "{% endfor %}"
+
+        Highcharts.chart('container', {
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: 'Platos'
+            },
+            xAxis: {
+                title: {
+                    text: 'Comentarios'
+                },
+
+                categories: categories
+
+            },
+            yAxis: {
+                title: {
+                    text: 'Puntuacion'
+                }, 
+                
+                accessibility: {
+                    rangeDescription: 'Range: 1 to 5'
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false,
+
+                }
+            },
+            series: [{
+                name: 'Puntuaciones de platos',
+                showInLegend: false,
+                colorByPoint: true,
+                data: data
+            }]
+        });
+
+    </script>
+
 </body>
 
     
