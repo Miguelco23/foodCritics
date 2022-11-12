@@ -17,16 +17,16 @@
 
 <body>
     <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
-        <div class="container"><a class="navbar-brand" href="../">FoodCritics&nbsp;</a>
+        <div class="container"><a class="navbar-brand" href="../home">FoodCritics&nbsp;</a>
 
-            <b><a href="../tus-puntos" style="color: #000; text-decoration: none;">Tus puntos: {{}}</a></b>
+            <b><a href="../tus-puntos" style="color: #000; text-decoration: none;">Tus puntos: {{ detalle.points}}</a></b>
 
             <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <div class="collapse navbar-collapse" id="navcol-1">
-                    <a class="btn botones ms-auto" role="button" href="/">Inicio</a>
+                    <a class="btn botones ms-auto" role="button" href="/home">Inicio</a>
                 </div>&nbsp;&nbsp;&nbsp;&nbsp; 
-                <a class="btn botones ms-auto" role="button" href="#">Sign In</a></div>
+                <a class="btn botones ms-auto" role="button" href="{% url 'cerrar_sesion'%}">Cerrar Sesion</a>
         </div>
     </nav>
     <header class="text-center text-white masthed" style="background:url('{%static 'assets/img/restaurants.jpeg' %}')no-repeat center center;background-size:cover; height:600px;">
@@ -46,9 +46,9 @@
     
                             {% csrf_token %}
     
-                            <p>Nombre: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="padding: 0.5rem 1rem;
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="padding: 0.5rem 1rem;
                                 font-size: 0.75rem;
-                                border-radius: 0.3rem;" name="name_user" value="{{detalle.points}}" required></p>
+                                border-radius: 0.3rem;" name="name_user" value="{{detalle.name}}" hidden></p>
                             <p>Comentario: <input type="text"  style="padding: 0.5rem 1rem;
                                 font-size: 0.75rem;
                                 border-radius: 0.3rem;"  class ="in" name="comentario_user"></p>

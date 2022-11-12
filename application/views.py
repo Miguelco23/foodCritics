@@ -173,7 +173,7 @@ def restauranteIniciado(request):
 
     Comentarios.objects.filter(place_id = id).update(reviews = almacenar_comentarios)
 
-  return render(request, 'restaurante.html', {'place_id' : id, 'restaurante' : restaurante, 'comentarios' : comentarios, 'puntos' : puntos_user, "detalle":detalleUsuario})
+  return render(request, 'restauranteIniciado.html', {'place_id' : id, 'restaurante' : restaurante, 'comentarios' : comentarios, 'puntos' : puntos_user, "detalle":detalleUsuario})
 
 
 def mapa(request):
@@ -185,18 +185,33 @@ def mapa(request):
 
   return render(request, 'mapa.html', {'puntos' : puntos_user, 'coordinates' : coordinates, 'KEY': API_KEY, 'restaurants': rest})
 
+def mapaIngresado(request):
+  global puntos_user, coordinatesLongitude, coordinatesLatitude, API_KEY
+
+  rest = Restaurantes.objects.all()
+
+  coordinates = { 'lat': coordinatesLatitude, 'lng': coordinatesLongitude}
+  detalle = request.session['email']
+  detalleUsuario = Usuarios.objects.get(email = detalle)
+
+  return render(request, 'mapaIngresado.html', {'puntos' : puntos_user, 'coordinates' : coordinates, 'KEY': API_KEY, 'restaurants': rest, 'detalle' : detalleUsuario})
+
+
 @csrf_exempt
 def puntos(request):
 
   global puntos_user, bonos
+  detalle = request.session['email']
+  detalleUsuario = Usuarios.objects.get(email = detalle)
 
+  
   if request.POST:
 
     redeem = request.POST['redeem']
 
     puntos_user -= int(redeem)
 
-  return render(request, 'puntos.html', {'puntos' : puntos_user, 'bonos': bonos})
+  return render(request, 'puntos.html', {'puntos' : puntos_user, 'bonos': bonos,'detalle' : detalleUsuario})
 
 
 
@@ -220,24 +235,30 @@ def menu(request):
   id = request.GET['menu']
   restaurante = Restaurantes.objects.get(place_id=id)
   menu = plato.objects.filter(restaurante=id)
-  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user, 'restaurante' : restaurante})
+  detalle = request.session['email']
+  detalleUsuario = Usuarios.objects.get(email = detalle)
+  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user, 'restaurante' : restaurante, 'detalle' : detalleUsuario})
 
 def menuMayor(request):
   global puntos_user
   id = request.GET['menu']
   menu = plato.objects.filter(restaurante=id)
+  detalle = request.session['email']
+  detalleUsuario = Usuarios.objects.get(email = detalle)
   restaurante = Restaurantes.objects.get(place_id=id)
   menu = menu.order_by('-price')
-  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user,'restaurante' : restaurante})
+  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user,'restaurante' : restaurante,'detalle' : detalleUsuario})
 
 def menuMenor(request):
   global puntos_user
   id = request.GET['menu']
+  detalle = request.session['email']
+  detalleUsuario = Usuarios.objects.get(email = detalle)
   menu = plato.objects.filter(restaurante=id)
   restaurante = Restaurantes.objects.get(place_id=id)
   menu = menu.order_by('price')
 
-  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user,'restaurante' : restaurante})
+  return render(request, 'menu.html', {'place_id' : id , 'menu' : menu, 'puntos' : puntos_user,'restaurante' : restaurante, 'detalle' : detalleUsuario})
   
 def busquedaRestaurante(request):
   termino = request.POST.get('search')
@@ -253,6 +274,8 @@ def reviewMenu(request):
   #print(id)
   platos = plato.objects.filter(id=id)
   comentarios = plato.objects.get(id=id)
+  detalle = request.session['email']
+  detalleUsuario = Usuarios.objects.get(email = detalle)
   #print(platos)
   if request.POST:
     author = request.POST['name_user']
@@ -276,7 +299,7 @@ def reviewMenu(request):
 
     plato.objects.filter(id = id).update(reviews = almacenar_comentarios)
 
-  return render(request, 'reviewMenu.html',{'plato':platos, 'puntos': puntos_user})
+  return render(request, 'reviewMenu.html',{'plato':platos, 'puntos': puntos_user, 'detalle':detalleUsuario})
 
 
 def Registro(request):

@@ -19,14 +19,14 @@
     <nav class="navbar navbar-light navbar-expand bg-light navigation-clean">
         <div class="container"><a class="navbar-brand" href="../">FoodCritics&nbsp;</a>
 
-            <b><a href="../tus-puntos" style="color: #000; text-decoration: none;">Tus puntos: {{puntos}}</a></b>
+            <b><a href="../tus-puntos" style="color: #000; text-decoration: none;"></a></b>
 
             <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <div class="collapse navbar-collapse" id="navcol-1">
                     <a class="btn botones ms-auto" role="button" href="/">Inicio</a>
                 </div>&nbsp;&nbsp;&nbsp;&nbsp; 
-                <a class="btn botones ms-auto" role="button" href="#">Sign In</a></div>
+                <a class="btn botones ms-auto" role="button" href="../ingreso">Iniciar sesión</a></div>
         </div>
     </nav>
     <header class="text-center text-white masthed" style="background:url('{%static 'assets/img/restaurants.jpeg' %}')no-repeat center center;background-size:cover; height:600px;">
@@ -34,6 +34,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-xl-9 mx-auto position-relative">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
                     <h1 class="mb-5">Estamos viendo el restaurante</h1>
                     <h1 class="mb-5">{{restaurante.name}} ------ Puntuación: {{restaurante.rating}}</h1>
                 </div>
@@ -42,33 +47,6 @@
 
                     <div class="comentario">
                     
-                        <form method="post">
-    
-                            {% csrf_token %}
-    
-                            <p>Nombre: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" style="padding: 0.5rem 1rem;
-                                font-size: 0.75rem;
-                                border-radius: 0.3rem;" name="name_user" required></p>
-                            <p>Comentario: <input type="text"  style="padding: 0.5rem 1rem;
-                                font-size: 0.75rem;
-                                border-radius: 0.3rem;"  class ="in" name="comentario_user"></p>
-                            
-                            <p>Puntuacion:
-                                <select style="padding: 0.5rem 1rem;
-                                font-size: 0.75rem;
-                                border-radius: 0.3rem; margin-right: 15%;" class ="" name="puntuacion_user" min="1" max="5" required>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    </select>
-                                    </p>
-    
-                                <input class="btn botones ms-auto" type="submit" value="Comentar">&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../menu/?menu={{restaurante.place_id}}" class="btn botones ms-auto">Ver menu</a>
-                                    
-                        </form>
                         
                         {%if comentarios.reviews%}
                     </div>
