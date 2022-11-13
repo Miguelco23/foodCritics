@@ -39,6 +39,9 @@ def home(request):
       temp = Categorias.objects.get(tipo__icontains=searchTerm)
       rest = Restaurantes.objects.filter(type = temp)
 
+  #Destacados
+   
+
   #Si el usuario permite conocer la ubicacion, la almacena
   if request.method == 'POST':
     coordinatesLatitude = request.POST['latitudes']
@@ -287,3 +290,7 @@ def logout_request(request):
   global login_check
   login_check = False
   return home(request)
+
+def destacados(request):
+  restaurantes = Restaurantes.objects.order_by('-rating')
+  return render(request, 'destacados.html', {'restaurants' : restaurantes[0:5], 'puntos' : puntos_user})

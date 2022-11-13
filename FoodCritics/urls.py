@@ -33,5 +33,6 @@ urlpatterns = [
     path('ingreso/', applicationViews.Ingreso),
     path('home/', applicationViews.HomeIniciado),
     path('/index', applicationViews.logout_request, name='cerrar_sesion'),
+    path('destacados/', applicationViews.destacados, name="destacados"),
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
