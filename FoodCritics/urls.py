@@ -37,5 +37,6 @@ urlpatterns = [
     path('salto2/', applicationViews.Salto2),
     path('restauranteIniciado/', applicationViews.restauranteIniciado),
     path('mapaIngresado/', applicationViews.mapaIngresado),
+    path('destacados/', applicationViews.destacados, name="destacados"),
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
