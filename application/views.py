@@ -323,7 +323,7 @@ def Registro(request):
     else:  
       agregar = Usuarios(name = name, email = email, password = password, points = points)
       agregar.save()
-      return render(request, 'salto2.html')
+      return render(request, 'salto.html')
 
   return render(request, 'registro.html')
 
