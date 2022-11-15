@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Comentarios, Restaurantes, Categorias, Usuarios, plato
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 import googlemaps
@@ -36,9 +35,6 @@ def home(request):
     elif(Categorias.objects.filter(tipo__icontains=searchTerm)):
       temp = Categorias.objects.get(tipo__icontains=searchTerm)
       rest = Restaurantes.objects.filter(type = temp)
-
-  #Destacados
-   
 
   #Si el usuario permite conocer la ubicacion, la almacena
   if request.method == 'POST':
@@ -322,7 +318,7 @@ def Registro(request):
     else:  
       agregar = Usuarios(name = name, email = email, password = password, points = points)
       agregar.save()
-      return render(request, 'salto.html')
+      return render(request, 'salto2.html')
 
   return render(request, 'registro.html')
 
@@ -383,7 +379,3 @@ def Salto2(request):
   global login_check
   return render(request, 'salto2.html')
 
-
-def destacados(request):
-  restaurantes = Restaurantes.objects.order_by('-rating')
-  return render(request, 'destacados.html', {'restaurants' : restaurantes[0:5], 'puntos' : puntos_user})
